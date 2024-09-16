@@ -29,6 +29,19 @@
         </div>
     </div>
 
+    <div class="w-full h-full flex justify-between">
+        <div class="w-[50%] h-[80vh]  flex flex-col justify-center ml-[100px]">
+            <h1 class="text-4xl font-bold mb-4">It's the food and groceries you love,<br /> delivered</h1>
+            <div class="flex h-[80px] shadow-xl rounded-xl justify-between items-center px-2">
+                <input type="text" placeholder="Enter Your Location" class="border outline-none w-full py-2">
+                <button class="btn bg-[#E21B70] text-white font-semibold rounded-md px-4">Find Food</button>
+            </div>
+        </div>
+        <div class="w-[50%] h-[100vh]">
+            <img src="https://images.deliveryhero.io/image/foodpanda/homepage/refresh-hero-home-bd.png?width=1264" alt="">
+        </div>
+    </div>
+
 </body>
 
 </html>
