@@ -132,7 +132,7 @@ Sidebar
 .sidebar-menu a {
   color: var(--main-text);
   display: block;
-  padding: 0.7rem 0;
+  padding:  0;
 }
 .sidebar-menu a.active {
   background-color: var(--main-accent);
