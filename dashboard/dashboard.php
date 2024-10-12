@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Document</title>
+    <?php include('../config/db.php') ?>
 </head>
 
 <body>

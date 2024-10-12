@@ -1,21 +1,29 @@
 <?php
+
 $servername = "localhost";
-$username = "username";
-$password = "password";
+$username = "root";
+$password = "";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password);
+
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Create database
-$sql = "CREATE DATABASE myDB";
-if ($conn->query($sql) === TRUE) {
-    echo "Database created successfully";
+// Check if the database already exists
+$db_check = $conn->select_db("fast_food");
+
+if ($db_check) {
 } else {
-    echo "Error creating database: " . $conn->error;
+    // Create the database since it doesn't exist
+    $sql = "CREATE DATABASE fast_food";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Database created successfully";
+    } else {
+        echo "Error creating database: " . $conn->error;
+    }
 }
 
-$conn->close();
