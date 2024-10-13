@@ -13,32 +13,34 @@
 
     include('../createRestaurant/create.php');
 
-    if (isset($_POST['submit'])) {
-        // Process form submission
+    if (isset($_POST['update'])) {
+        $id = $_GET['id'];
+
         $name = $_POST['name'];
         $email = $_POST['email'];
         $phone = $_POST['phone'];
         $location = $_POST['location'];
 
+        $sql = "UPDATE restaurant SET name= '$name', email= '$email' , phone= '$phone', location= '$location' WHERE id= '$id'";
 
-
-        // Ensure $conn is a valid connection before executing the query
-
-        $sql = "INSERT INTO restaurant (name, email, phone, location, status) VALUES ('$name', '$email', '$phone', '$location', '1')";
         $result = mysqli_query($conn, $sql);
 
         if ($result) {
-            $_SESSION['message'] = "New Restaurant created successfully";
+            $_SESSION['message'] = "Restaurant Updated successfully";
             $_SESSION['msg_type'] = "success";
         } else {
             $_SESSION['message'] = "Error: " . $sql . "<br>" . mysqli_error($conn);
             $_SESSION['msg_type'] = "error";
         }
 
-
-        // Redirect to the same page to avoid resubmission
         header("Location: " . "restaurant_list.php");
-        exit();
+    }
+
+    if (isset($_GET['id'])) {
+        $id = $_GET['id']; // Again, validate and sanitize this input
+        $sql = "SELECT * FROM restaurant WHERE id = $id";
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
     }
     ?>
 
@@ -67,7 +69,8 @@
         ?>
 
         <main class="w-full h-full bg-white">
-            <form action="" method="post" class="w-full max-w-sm">
+            <form action="<?php echo $_SERVER['PHP_SELF'] . '?id=' . $id; ?>"
+                method="post" class="w-full max-w-sm">
                 <div class="md:flex md:items-center mb-6">
                     <div class="md:w-2/3">
                         <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
@@ -75,7 +78,7 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input name="name" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" required>
+                        <input value="<?php echo $row['name']; ?>" name="name" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" required>
                     </div>
                 </div>
 
@@ -86,7 +89,7 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input name="location" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" required>
+                        <input value="<?php echo $row['location']; ?>" name="location" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" required>
                     </div>
                 </div>
 
@@ -97,7 +100,7 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input name="email" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="email" required>
+                        <input value="<?php echo $row['email']; ?>" name="email" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="email" required>
                     </div>
                 </div>
 
@@ -108,15 +111,15 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input name="phone" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" required>
+                        <input value="<?php echo $row['phone']; ?>" name="phone" class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" required>
                     </div>
                 </div>
 
                 <div class="md:flex md:items-center">
                     <div class="md:w-1/3"></div>
                     <div class="w-full">
-                        <button class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit" name="submit">
-                            Register
+                        <button class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit" name="update">
+                            Update
                         </button>
                     </div>
                 </div>
