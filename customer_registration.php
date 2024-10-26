@@ -13,18 +13,18 @@ if ($conn->connect_error) {
 }
 
 // Check if the table exists
-$tableExists = $conn->query("SHOW TABLES LIKE 'restaurant'")->num_rows > 0;
+$tableExists = $conn->query("SHOW TABLES LIKE 'customers'")->num_rows > 0;
 
 if (!$tableExists) {
     // SQL to create table
-    $sql = "CREATE TABLE restaurant (
+    $sql = "CREATE TABLE customers (
         id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(30) NOT NULL,
+        name VARCHAR(30) NULL,
         email VARCHAR(30) NOT NULL,
-        phone VARCHAR(50),
-        password VARCHAR(255),
-        location VARCHAR(50),
-        status VARCHAR(50)
+        phone VARCHAR(50) NULL,
+        password VARCHAR(255) NOT NULL,
+        location VARCHAR(50) NULL,
+        status VARCHAR(50) NULL
     )";
 
     if ($conn->query($sql) === TRUE) {
@@ -33,5 +33,3 @@ if (!$tableExists) {
     }
 } else {
 }
-
-?>

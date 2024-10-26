@@ -24,7 +24,7 @@
 
         // Ensure $conn is a valid connection before executing the query
 
-        $sql = "INSERT INTO restaurant (name, email, phone, location, status) VALUES ('$name', '$email', '$phone', '$location', '1')";
+        $sql = "INSERT INTO restaurant (name, email, phone, location, password,status) VALUES ('$name', '$email', '$phone', '$location','$phone', '1')";
         $result = mysqli_query($conn, $sql);
 
         if ($result) {
