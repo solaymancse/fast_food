@@ -24,7 +24,7 @@ if (!$tableExists) {
         phone VARCHAR(50) NULL,
         password VARCHAR(255) NOT NULL,
         location VARCHAR(50) NULL,
-        status VARCHAR(50) NULL
+        status VARCHAR(50) default 1
     )";
 
     if ($conn->query($sql) === TRUE) {

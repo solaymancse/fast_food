@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Admin Login</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
@@ -14,6 +14,7 @@ session_start();
 
 // Include database configuration file
 @include('./config/db.php');
+@include('./admin_register.php');
 
 // Check if the connection is successful
 if ($conn->connect_error) {
@@ -25,24 +26,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Check if the user exists and verify password
-    $sql = "SELECT * FROM restaurant WHERE email = ?";
+    // Check if the user exists and retrieve hashed password
+    $sql = "SELECT * FROM admins WHERE email = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
+        // Fetch user data
         $user = $result->fetch_assoc();
 
-        if ($user['password'] == $password && $user['status'] == 1) {
+        // Verify hashed password
+        if (password_verify($password, $user['password'])) {
+            // Authentication successful, set session variables
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['email'] = $user['email'];
-            $_SESSION['logged_in'] = true;
-
+            $_SESSION['admin_logged_in'] = true;
 
             // Redirect to dashboard
-            header("Location: ./restaurant/dashboard.php");
+            header("Location: ./dashboard/dashboard.php");
             exit();
         } else {
             // Invalid password
@@ -53,9 +56,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = "Invalid email or password.";
     }
 }
-
-
 ?>
+
 
 
 
@@ -63,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Login Card -->
     <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
-        <h2 class="text-2xl font-semibold text-gray-800 text-center mb-6">Restaurant Login</h2>
+        <h2 class="text-2xl font-semibold text-gray-800 text-center mb-6">Admin Login</h2>
         <?php if (isset($error)): ?>
             <p class="text-red-500 text-center mb-4"><?php echo $error; ?></p>
         <?php endif; ?>

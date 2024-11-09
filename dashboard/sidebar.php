@@ -13,8 +13,7 @@
                     <li><a href="./restaurant.php"><span class="las la-video"></span><span>Add Restaurant</span></a></li>
                     <li><a href="./restaurant_list.php"><span class="las la-video"></span><span>Restaurant List</span></a></li>
                     <li><a href="./customers_list.php"><span class="las la-chart-bar"></span><span>Customers List</span></a></li>
-                    <li><a href="#"><span class="las la-calendar"></span><span>Schedule</span></a></li>
-                    <li><a href="#"><span class="las la-user"></span><span>Account</span></a></li>
+                   
                 </ul>
             </div>
     

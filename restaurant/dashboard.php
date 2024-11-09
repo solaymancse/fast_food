@@ -1,11 +1,21 @@
+<?php
+session_start();
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+  header("Location: ../restaurant_login.php");
+  exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-gray-100 font-sans antialiased h-screen flex">
 
   <!-- Sidebar -->
@@ -46,5 +56,14 @@
     </div>
   </main>
 
+  <script>
+    // Set localStorage item to track login status
+    if (!localStorage.getItem("logged")) {
+      localStorage.setItem("logged", "true");
+    }
+  </script>
+
+
 </body>
+
 </html>
