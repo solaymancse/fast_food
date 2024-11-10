@@ -102,8 +102,6 @@
                                     </span>
                                 </td>
                                 <td class="py-3 px-6">
-                                    <a href="edit_restaurant.php?id=<?php echo $row['id']; ?>" class="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600 mr-1">Edit</a>
-                                    <button onclick="openModal(<?php echo $row['id']; ?>)" class="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-1">Delete</button>
                                     <button onclick="toggleStatus(<?php echo $row['id']; ?>, <?php echo $row['status']; ?>)" class="bg-yellow-500 text-white py-1 px-2 rounded hover:bg-yellow-600">
                                         <?php echo $row['status'] === '1' ? 'Block' : 'Unblock'; ?>
                                     </button>
