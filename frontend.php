@@ -34,6 +34,7 @@ if (isset($_POST['menu_id']) && isset($_SESSION['customer_id'])) {
 if (isset($_POST['submit'])) {
     $action = $_POST['submit'];
     $phone = $_POST['phone'];
+    $email = $_POST['email'];
     $password = $_POST['password'];
 
     if (empty($phone) || empty($password)) {
@@ -125,6 +126,8 @@ $result = mysqli_query($conn, $sql);
                 <h1 class="text-[#E21B70] font-bold text-xl">Fast Food</h1>
             </div>
             <div class="flex gap-4">
+                <a href="./admin_login.php"  class="btn border-2 font-semibold rounded-md px-4 py-2">Admin login</a>
+                <a href="./restaurant_login.php" class="btn border-2 font-semibold rounded-md px-4 py-2">restaurant login</a>
                 <div onclick="my_modal_2.showModal()" class="btn border-2 font-semibold rounded-md px-4 py-2">login</div>
                 <div onclick="my_modal_1.showModal()" class="btn bg-[#E21B70] text-white font-semibold rounded-md px-4 py-2">sign up</div>
             </div>
