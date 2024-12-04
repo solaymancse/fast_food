@@ -15,7 +15,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     <link rel="stylesheet" href="./style.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Fast Food</title>
-    
+
     <?php
     include('../config/db.php');
 
@@ -38,19 +38,28 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
         $customerCount = $customerRow['total_customers'];
     }
 
-    $restaurantQuery = "SELECT COUNT(*) AS total_restaurants FROM restaurant";
-    $restaurantResult = $conn->query($restaurantQuery);
-    if ($restaurantResult) {
-        $restaurantRow = $restaurantResult->fetch_assoc();
-        $restaurantCount = $restaurantRow['total_restaurants'];
+    $tableCheckQuery = "SHOW TABLES LIKE 'restaurant'";
+    $tableCheckResult = $conn->query($tableCheckQuery);
+
+    if (mysqli_num_rows($tableCheckResult) > 0) {
+        $restaurantQuery = "SELECT COUNT(*) AS total_restaurants FROM restaurant";
+        $restaurantResult = $conn->query($restaurantQuery);
+        if ($restaurantResult) {
+            $restaurantRow = $restaurantResult->fetch_assoc();
+            $restaurantCount = $restaurantRow['total_restaurants'];
+
+            $activeRestaurantQuery = "SELECT COUNT(*) AS active_restaurants FROM restaurant WHERE status = 1 ";
+            $activeRestaurantResult = $conn->query($activeRestaurantQuery);
+            if ($activeRestaurantResult) {
+                $activeRestaurantRow = $activeRestaurantResult->fetch_assoc();
+                $activeRestaurantCount = $activeRestaurantRow['active_restaurants'];
+            }
+        }
+    } else {
     }
 
-    $activeRestaurantQuery = "SELECT COUNT(*) AS active_restaurants FROM restaurant WHERE status = 1 ";
-    $activeRestaurantResult = $conn->query($activeRestaurantQuery);
-    if ($activeRestaurantResult) {
-        $activeRestaurantRow = $activeRestaurantResult->fetch_assoc();
-        $activeRestaurantCount = $activeRestaurantRow['active_restaurants'];
-    }
+
+
 
     ?>
 </head>

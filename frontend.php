@@ -99,8 +99,13 @@ if (isset($_POST['submit'])) {
         }
     }
 }
-$sql = "SELECT * FROM menus ORDER BY created_at DESC";
-$result = mysqli_query($conn, $sql);
+$table_check_query = "SHOW TABLES LIKE 'menus'";
+$table_check_result = mysqli_query($conn, $table_check_query);
+if (mysqli_num_rows($table_check_result) > 0) {
+    $sql = "SELECT * FROM menus ORDER BY created_at DESC";
+    $result = mysqli_query($conn, $sql);
+} else {
+}
 
 
 ?>
@@ -126,7 +131,7 @@ $result = mysqli_query($conn, $sql);
                 <h1 class="text-[#E21B70] font-bold text-xl">Fast Food</h1>
             </div>
             <div class="flex gap-4">
-                <a href="./admin_login.php"  class="btn border-2 font-semibold rounded-md px-4 py-2">Admin login</a>
+                <a href="./admin_login.php" class="btn border-2 font-semibold rounded-md px-4 py-2">Admin login</a>
                 <a href="./restaurant_login.php" class="btn border-2 font-semibold rounded-md px-4 py-2">restaurant login</a>
                 <div onclick="my_modal_2.showModal()" class="btn border-2 font-semibold rounded-md px-4 py-2">login</div>
                 <div onclick="my_modal_1.showModal()" class="btn bg-[#E21B70] text-white font-semibold rounded-md px-4 py-2">sign up</div>
@@ -175,41 +180,50 @@ $result = mysqli_query($conn, $sql);
 
     <div class="max-w-7xl mx-auto py-8">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-                <div class="bg-white p-4 rounded-lg shadow-lg">
-                    <!-- Card image with status on top -->
-                    <div class="relative">
-                        <?php if (!empty($row['image'])) { ?>
-                            <img src="restaurant/uploads/<?php echo $row['image']; ?>" alt="Image" class="w-full h-32 object-cover rounded-lg">
-                        <?php } else { ?>
-                            <span>No image</span>
-                        <?php } ?>
-                        <div class="absolute top-2 left-2 bg-<?php echo $row['status'] === 'available' ? 'green' : 'red'; ?>-500 text-white py-1 px-3 rounded-full text-sm">
-                            <?php echo $row['status'] === 'available' ? 'Available' : 'Not Available'; ?>
+            <?php
+            // Check if the result has data
+            if (!empty($result) && mysqli_num_rows($result) > 0) {
+                // Loop through the result set
+                while ($row = mysqli_fetch_assoc($result)) { ?>
+                    <div class="bg-white p-4 rounded-lg shadow-lg">
+                        <!-- Card image with status on top -->
+                        <div class="relative">
+                            <?php if (!empty($row['image'])) { ?>
+                                <img src="restaurant/uploads/<?php echo $row['image']; ?>" alt="Image" class="w-full h-32 object-cover rounded-lg">
+                            <?php } else { ?>
+                                <span>No image</span>
+                            <?php } ?>
+                            <div class="absolute top-2 left-2 bg-<?php echo $row['status'] === 'available' ? 'green' : 'red'; ?>-500 text-white py-1 px-3 rounded-full text-sm">
+                                <?php echo $row['status'] === 'available' ? 'Available' : 'Not Available'; ?>
+                            </div>
+                        </div>
+
+                        <!-- Food Name -->
+                        <h3 class="mt-4 text-xl font-semibold text-gray-800"><?php echo htmlspecialchars($row['name']); ?></h3>
+
+                        <!-- Price -->
+                        <p class="mt-2 text-lg text-gray-600">$<?php echo number_format($row['price'], 2); ?></p>
+
+                        <!-- Order Button -->
+                        <div class="mt-4">
+                            <form method="POST" action="">
+                                <input type="hidden" name="menu_id" value="<?php echo $row['id']; ?>">
+                                <button type="submit" class="w-full py-2 px-4 rounded-lg text-white font-semibold 
+                                <?php echo $row['status'] === 'available' ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-gray-400 cursor-not-allowed'; ?>"
+                                    <?php echo $row['status'] === 'available' ? '' : 'disabled'; ?>>
+                                    <?php echo $row['status'] === 'available' ? 'Order' : 'Not Available'; ?>
+                                </button>
+                            </form>
                         </div>
                     </div>
-
-                    <!-- Food Name -->
-                    <h3 class="mt-4 text-xl font-semibold text-gray-800"><?php echo $row['name']; ?></h3>
-
-                    <!-- Price -->
-                    <p class="mt-2 text-lg text-gray-600">$<?php echo number_format($row['price'], 2); ?></p>
-
-                    <!-- Order Button -->
-                    <div class="mt-4">
-                        <form method="POST" action="">
-                            <input type="hidden" name="menu_id" value="<?php echo $row['id']; ?>">
-                            <button type="submit" class="w-full py-2 px-4 rounded-lg text-white font-semibold 
-                                <?php echo $row['status'] === 'available' ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-gray-400 cursor-not-allowed'; ?>"
-                                <?php echo $row['status'] === 'available' ? '' : 'disabled'; ?>>
-                                <?php echo $row['status'] === 'available' ? 'Order' : 'Not Available'; ?>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            <?php } ?>
+            <?php }
+            } else {
+               
+            }
+            ?>
         </div>
     </div>
+
 
 
     <!-- Display message alerts -->
