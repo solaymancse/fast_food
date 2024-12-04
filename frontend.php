@@ -34,7 +34,7 @@ if (isset($_POST['menu_id']) && isset($_SESSION['customer_id'])) {
 if (isset($_POST['submit'])) {
     $action = $_POST['submit'];
     $phone = $_POST['phone'];
-    $email = $_POST['email'];
+    $email = isset($_POST['email']) ? $_POST['email'] : null;
     $password = $_POST['password'];
 
     if (empty($phone) || empty($password)) {
