@@ -23,7 +23,7 @@ if (isset($_POST['logout'])) {
     <nav class="flex-1 px-6 space-y-2">
         <a href="./CustomerDashboard.php" class="block py-2 px-4 rounded-md hover:bg-teal-800">Home</a>
         <a href="./customer_profile.php" class="block py-2 px-4 rounded-md hover:bg-teal-800">Profile</a>
-        <a href="./customer_order_list.php" class="block py-2 px-4 rounded-md hover:bg-teal-800">Order List</a>
+        
     </nav>
 
     <!-- Logout form -->

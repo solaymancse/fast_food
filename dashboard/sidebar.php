@@ -1,3 +1,20 @@
+<?php
+// Start the session if it's not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Handle logout if the form is submitted
+if (isset($_POST['logout'])) {
+    // Clear session data
+    session_unset();
+    session_destroy();
+
+    // Redirect to the login or home page
+    header("Location: ../index.php");
+    exit();
+}
+?>
 <div class="sidebar">
     <div class="sidebar-container">
         <div class="brand mb-4">
@@ -17,9 +34,11 @@
 
                 </ul>
             </div>
-            <div class="p-6">
-                <a href="#" class="block text-white text-center py-2 px-4 rounded-md bg-red-500 hover:bg-red-600">Logout</a>
-            </div>
+            <form action="" method="POST" class="p-6 ">
+                <button type="submit" name="logout" class="block text-center py-2 px-4 rounded-md bg-red-600 hover:bg-red-600">
+                    Logout
+                </button>
+            </form>
         </div>
 
     </div>
